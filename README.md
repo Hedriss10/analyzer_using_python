@@ -93,41 +93,4 @@ if company_name != '':
 
 ### Resumindo 
 
-Vamos extrair as notícias, analisaremos os links dos artigos extraídos que estão armazenado na variável do quadro de dados e realizaremos as operações de PNL (processamento de linguagem natural) nesses artigos.
-
-```
-try:
-    list =[] #creating an empty list 
-    for i in df.index:
-        dict = {} #creating an empty dictionary to append an article in every single iteration
-        article = Article(df['link'][i],config=config) #providing the link
-        try:
-          article.download() #downloading the article 
-          article.parse() #parsing the article
-          article.nlp() #performing natural language processing (nlp)
-        except:
-           pass 
-        #storing results in our empty dictionary
-        dict['Date']=df['date'][i] 
-        dict['Media']=df['media'][i]
-        dict['Title']=article.title
-        dict['Article']=article.text
-        dict['Summary']=article.summary
-        dict['Key_words']=article.keywords
-        list.append(dict)
-    check_empty = not any(list)
-    # print(check_empty)
-    if check_empty == False:
-      news_df=DataFrame(list) #creating dataframe
-      print(news_df)
-
-except Exception as e:
-    print("Erro ocorrido:" + str(e))
-    print('Parece que houve algum erro na recuperação dos dados. Tente novamente ou tente com um ticker diferente.' )
-```
-Implementação do tratamento de exceções aninhadas aqui porque às vezes o módulo Jornal gera um erro relacionado ao download e análise dos artios, portanto, o tratamento de exeções garante o fluxo do nosso programa e, se houver um erro diferente desse, nosso programa lançara um erro.
-
-
-### Saída:
-
-<img src=''></img>
+Vamos extrair as notícias, analisaremos os links dos artigos extraídos que estão armazenado na variável do quadro de dados e realizaremos as operações de PNL (processamento de linguagem natural)
