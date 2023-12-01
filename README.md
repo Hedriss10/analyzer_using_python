@@ -47,7 +47,6 @@ from GoogleNews import GoogleNews
 from newspaper import article
 from newspaper import Config
 from wordcloud import WordCloud , STOPWORDS
-
 ```
 
 ### Extraindo as notícias 
@@ -62,5 +61,10 @@ user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0) Gecko/20100
 config = Config()
 config.browser_user_agent = user_agent
 config.request_timeout = 10
-
 ```
+
+Atribuimos as variáveis para fornezer o prazo de extração de notícias, que é essencialmente de 1 dia. o `nltk punkt` é um tokenizer (dados de sequência de caracteres) que divide o texto em uma lista de frases usando um algoritimo avançado.
+
+Precisamos do `Config` porque às vezes o pacote do jornal pode não conseguir baixar um artigo devido à restrição do acesso a URL especificada. Para contornar essa restrição, definimos o `user_agent` variável para analisar esses artgios restritos e obter autorização.
+
+Por fim, a conexão pode ocasionalmente antigir o tempo de limite, poís utilizar o módulo Python, `requests` então para evitar o mesmo, usamos `config.request_timeout`. 
