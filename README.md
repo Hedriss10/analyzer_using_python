@@ -68,3 +68,66 @@ Atribuimos as variáveis para fornezer o prazo de extração de notícias, que �
 Precisamos do `Config` porque às vezes o pacote do jornal pode não conseguir baixar um artigo devido à restrição do acesso a URL especificada. Para contornar essa restrição, definimos o `user_agent` variável para analisar esses artgios restritos e obter autorização.
 
 Por fim, a conexão pode ocasionalmente antigir o tempo de limite, poís utilizar o módulo Python, `requests` então para evitar o mesmo, usamos `config.request_timeout`. 
+
+
+### Salvando o ticket
+
+
+```
+# salvando o ticket da empresa
+company_name = input("Forneça o nome da empresa ou um ticket: ")
+
+if company_name != '':
+    
+    print(f"Procurando e analisando {company_name}, Por favor, seja paciente, pode demorar um pouco..")
+    google_news = GoogleNews(start=yesterday, end=now)
+    google_news.search(company_name)
+    result = google_news.result()
+    
+    # resultado 
+    df = DataFrame(result)
+    print(df.head())
+```
+
+É importante ressaltar aqui ele busca apenas 10 artigos por vez que estejam primeira página da busca do Google; embora possamos buscar artigos, isso anulará o propósito de extrair as notícias 'recentes'.
+
+### Resumindo 
+
+Vamos extrair as notícias, analisaremos os links dos artigos extraídos que estão armazenado na variável do quadro de dados e realizaremos as operações de PNL (processamento de linguagem natural) nesses artigos.
+
+```
+try:
+    list =[] #creating an empty list 
+    for i in df.index:
+        dict = {} #creating an empty dictionary to append an article in every single iteration
+        article = Article(df['link'][i],config=config) #providing the link
+        try:
+          article.download() #downloading the article 
+          article.parse() #parsing the article
+          article.nlp() #performing natural language processing (nlp)
+        except:
+           pass 
+        #storing results in our empty dictionary
+        dict['Date']=df['date'][i] 
+        dict['Media']=df['media'][i]
+        dict['Title']=article.title
+        dict['Article']=article.text
+        dict['Summary']=article.summary
+        dict['Key_words']=article.keywords
+        list.append(dict)
+    check_empty = not any(list)
+    # print(check_empty)
+    if check_empty == False:
+      news_df=DataFrame(list) #creating dataframe
+      print(news_df)
+
+except Exception as e:
+    print("Erro ocorrido:" + str(e))
+    print('Parece que houve algum erro na recuperação dos dados. Tente novamente ou tente com um ticker diferente.' )
+```
+Implementação do tratamento de exceções aninhadas aqui porque às vezes o módulo Jornal gera um erro relacionado ao download e análise dos artios, portanto, o tratamento de exeções garante o fluxo do nosso programa e, se houver um erro diferente desse, nosso programa lançara um erro.
+
+
+### Saída:
+
+<img src=''></img>
