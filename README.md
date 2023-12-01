@@ -13,5 +13,54 @@
 *Recomendo enfaticamente que você adquira conhecimento em linguagens de programação, estrutura de modularização e conceitos relacionados, pois o que planejamos desenvolver juntos será implementado utilizando linguagem de programação, estrutura de aprendizado de máquina, processamento de linguagem natural, APIs e criação de gráficos com dashboards. Isso será essencial para a compreensão e execução bem-sucedida do projeto proposto.*
 
 
+## Fluxo:
+
+O fluxo
+
+**Extract** -> **Summarize** -> **Analyze**
+
+Primeiro, extrairemos os artigos de notícias com o pacote **Python** de notícias do **Google**, depois os resumiremos com o pacote **Python** para jornais e, no final, executaremos a análise de sentimento nos artigos de notícias extraídos e resumidos com o **VADER**.
+ 
+
 ## Como usar 
 
+**Instalação das libs**
+
+Para instalar as libs no seu projeto é bem simples executa via terminal, lembrando foi configurando com o ambiente virutal `pip` se você estiver usando outro packge do python para instalar pacotes recomendo fortemente que pesquise e estude esse instalador -> <a href="https://packaging.python.org/en/latest/tutorials/installing-packages/">pip package</a>
+
+```
+pip install -r requirements.txt 
+```
+
+
+### Importação das libs 
+
+```
+# importação das ferramentas 
+
+from pandas import DataFrame 
+from nltk import download
+from datetime import date 
+from matplotlib import pyplot as plt 
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from GoogleNews import GoogleNews
+from newspaper import article
+from newspaper import Config
+from wordcloud import WordCloud , STOPWORDS
+
+```
+
+### Extraindo as notícias 
+
+```
+now = date.today()
+now = now.strftime("%m-%d-%Y")
+yesterday = date.today() - timedelta(days=1)
+yesterday = yesterday.strftime("%m-%d-%Y")
+download('punkt')
+user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0) Gecko/20100101 Firefox/78.0'
+config = Config()
+config.browser_user_agent = user_agent
+config.request_timeout = 10
+
+```
